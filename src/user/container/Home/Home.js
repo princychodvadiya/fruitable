@@ -975,7 +975,8 @@ function Home(props) {
                                         <img src="img/testimonial-1.jpg" className="img-fluid rounded" style={{ width: 100, height: 100 }} alt />
                                     </div>
                                     <div className="ms-4 d-block">
-                                        <h4 className="text-dark">Client Name</h4>
+                                        <h4 className="text-dar
+                                        k">Client Name</h4>
                                         <p className="m-0 pb-3">Profession</p>
                                         <div className="d-flex pe-5">
                                             <i className="fas fa-star text-primary" />
