@@ -15,6 +15,7 @@ function Shop(props) {
     useEffect(() => {
         getdata()
     }, [])
+    
     return (
         <div>
             {/* Single Page Header start */}

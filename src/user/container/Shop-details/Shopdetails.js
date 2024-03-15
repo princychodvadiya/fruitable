@@ -1,10 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 function Shopdetails(props) {
 
+    const [fruitedetails, setfruitedetails] = useState({});
     const { id } = useParams();
-    console.log(id);
+
+    const getdata = async () => {
+        try {
+            const response = await fetch("http://localhost:8000/fruits");
+            const data = await response.json();
+
+            const fruitedetailsData = data.find((v) => v.id === id);
+            setfruitedetails(fruitedetailsData);
+            console.log(id);
+
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    useEffect(() => {
+        getdata()
+    }, [])
+
     return (
         <div>
             {/* Single Page Header start */}
@@ -26,14 +45,14 @@ function Shopdetails(props) {
                                 <div className="col-lg-6">
                                     <div className="border rounded">
                                         <a href="#">
-                                            <img src="img/single-item.jpg" className="img-fluid rounded" alt="Image" />
+                                            <img src={`../${fruitedetails.image}`} className="img-fluid rounded" alt="Image" />
                                         </a>
                                     </div>
                                 </div>
                                 <div className="col-lg-6">
-                                    <h4 className="fw-bold mb-3">Brocoli</h4>
-                                    <p className="mb-3">Category: Vegetables</p>
-                                    <h5 className="fw-bold mb-3">3,35 $</h5>
+                                    <h4 className="fw-bold mb-3">{fruitedetails.name}</h4>
+                                    <p className="mb-3">{fruitedetails.description}</p>
+                                    <h5 className="fw-bold mb-3">{fruitedetails.price} $</h5>
                                     <div className="d-flex mb-4">
                                         <i className="fa fa-star text-secondary" />
                                         <i className="fa fa-star text-secondary" />
