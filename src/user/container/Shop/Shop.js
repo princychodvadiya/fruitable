@@ -1,21 +1,39 @@
+import { type } from '@testing-library/user-event/dist/type';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, json } from 'react-router-dom';
 
 function Shop(props) {
 
     const [fruiteData, setfruiteData] = useState([]);
+    const [price, setprice] = useState([])
+    const [type, settype] = useState([]);
+    const [sectype, setSecType] = useState('')
+    // const [additional, setadditional] = useState([]);
 
     const getdata = async () => {
         const response = await fetch("http://localhost:8000/fruits");
         const data = await response.json();
 
+        // if (sectype) {
+        //     return typeData = v.type === type;
+        // }
+
         console.log(data);
         setfruiteData(data);
+        // setSecType(typeData)
+        settype(data)
     }
+
+    const handelRange = (event) => {
+        // console.log(value);
+        // console.log(price);
+        setprice(event.target.value)
+    }
+
     useEffect(() => {
         getdata()
-    }, [])
-    
+    }, []);
+
     return (
         <div>
             {/* Single Page Header start */}
@@ -27,6 +45,7 @@ function Shop(props) {
                     <li className="breadcrumb-item active text-white">Shop</li>
                 </ol>
             </div>
+
             {/* Single Page Header End */}
             {/* Fruits Shop Start*/}
             <div className="container-fluid fruite py-5">
@@ -98,17 +117,22 @@ function Shop(props) {
                                             <div className="mb-3">
                                                 <h4 className="mb-2">Price</h4>
                                                 <input type="range" className="form-range w-100" id="rangeInput" name="rangeInput" min={0} max={500} defaultValue={0} oninput="amount.value=rangeInput.value" />
-                                                <output id="amount" name="amount" min-velue={0} max-value={500} htmlFor="rangeInput">0</output>
+                                                <output id="amount" name="amount" onChange={() => handelRange()} min-velue={0} max-value={500} htmlFor="rangeInput">0</output>
                                             </div>
                                         </div>
                                         <div className="col-lg-12">
                                             <div className="mb-3">
                                                 <h4>Additional</h4>
-                                                <div className="mb-2">
-                                                    <input type="radio" className="me-2" id="Categories-1" name="Categories-1" defaultValue="Beverages" />
-                                                    <label htmlFor="Categories-1"> Organic</label>
-                                                </div>
-                                                <div className="mb-2">
+                                                {
+                                                    type.map((v, i) => (
+                                                        <div className="mb-2">
+                                                            <input onChange={() => setSecType(v)} type="radio" className="me-2" id="Categories-1" name="Categories-1" defaultValue="Beverages" />
+                                                            <label htmlFor="Categories-1"> {v.type}</label>
+                                                        </div>
+                                                    ))
+                                                }
+
+                                                {/* <div className="mb-2">
                                                     <input type="radio" className="me-2" id="Categories-2" name="Categories-1" defaultValue="Beverages" />
                                                     <label htmlFor="Categories-2"> Fresh</label>
                                                 </div>
@@ -123,7 +147,7 @@ function Shop(props) {
                                                 <div className="mb-2">
                                                     <input type="radio" className="me-2" id="Categories-5" name="Categories-1" defaultValue="Beverages" />
                                                     <label htmlFor="Categories-5"> Expired</label>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </div>
                                         <div className="col-lg-12">
@@ -205,35 +229,37 @@ function Shop(props) {
                                             fruiteData.map((v) => (
                                                 <div className="col-md-6 col-lg-6 col-xl-4">
                                                     <Link to={`/shop/${v.id}`}>
-                                                    <div className="rounded position-relative fruite-item">
-                                                        <div className="fruite-img">
-                                                            <img src={v.image} className="img-fluid w-100 rounded-top" alt />
-                                                        </div>
-                                                        <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: 10, left: 10 }}>Fruits</div>
-                                                        <div className="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                            <h4>{v.name}</h4>
-                                                            <p>{v.description}</p>
-                                                            <div className="d-flex justify-content-between flex-lg-wrap">
-                                                                <p className="text-dark fs-5 fw-bold mb-0">${v.price} / kg</p>
-                                                                <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
+                                                        <div className="rounded position-relative fruite-item">
+                                                            <div className="fruite-img">
+                                                                <img src={v.image} className="img-fluid w-100 rounded-top" alt />
+                                                            </div>
+                                                            <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: 10, left: 10 }}>Fruits</div>
+                                                            <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                                <h4>{v.name}</h4>
+                                                                <p>{v.description}</p>
+                                                                <div className="d-flex justify-content-between flex-lg-wrap">
+                                                                    <p className="text-dark fs-5 fw-bold mb-0">${v.price} / kg</p>
+                                                                    <p>{v.type}</p>
+                                                                    <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </Link>
+                                                    </Link>
                                                 </div>
-                                    ))
+                                            ))
                                         }
 
-                                    <div className="col-12">
-                                        <div className="pagination d-flex justify-content-center mt-5">
-                                            <a href="#" className="rounded">«</a>
-                                            <a href="#" className="active rounded">1</a>
-                                            <a href="#" className="rounded">2</a>
-                                            <a href="#" className="rounded">3</a>
-                                            <a href="#" className="rounded">4</a>
-                                            <a href="#" className="rounded">5</a>
-                                            <a href="#" className="rounded">6</a>
-                                            <a href="#" className="rounded">»</a>
+                                        <div className="col-12">
+                                            <div className="pagination d-flex justify-content-center mt-5">
+                                                <a href="#" className="rounded">«</a>
+                                                <a href="#" className="active rounded">1</a>
+                                                <a href="#" className="rounded">2</a>
+                                                <a href="#" className="rounded">3</a>
+                                                <a href="#" className="rounded">4</a>
+                                                <a href="#" className="rounded">5</a>
+                                                <a href="#" className="rounded">6</a>
+                                                <a href="#" className="rounded">»</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -242,8 +268,7 @@ function Shop(props) {
                     </div>
                 </div>
             </div>
-        </div>
-            {/* Fruits Shop End*/ }
+            {/* Fruits Shop End*/}
         </div >
 
     );
