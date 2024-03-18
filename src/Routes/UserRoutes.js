@@ -10,6 +10,7 @@ import Header from '../user/component/Header/Header';
 import { Route, Routes } from 'react-router-dom';
 import Footer from '../user/component/Footer/Footer';
 import Testimonial from '../user/container/Pages/Testimonial';
+import PrivateRoutes from './PrivateRoutes';
 
 function UserRoutes(props) {
     return (
@@ -18,10 +19,14 @@ function UserRoutes(props) {
                 <Header />
                 <Routes>
                     <Route exact path="/" element={<Home />} />
-                    <Route exact path="/shop" element={<Shop />} />
+                    <Route element={<PrivateRoutes />} >
+                        <Route exact path="/shop" element={<Shop />} />
+                        <Route exact path='/shop-details' element={<Shopdetails />} />
+                        <Route exact path="/shop/:id" element={<Shopdetails />} />
+                    </Route>
+
                     <Route exact path="/contect" element={<Contect />} />
-                    <Route exact path='/shop-details' element={<Shopdetails />} />
-                    <Route exact path="/shop/:id" element={<Shopdetails />} />
+
                     <Route exact path="/pages" />
                     <Route exact path="/cart" element={<Cart />} />
                     <Route exact path="/chackout" element={<Chackout />} />
