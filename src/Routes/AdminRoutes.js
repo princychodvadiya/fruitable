@@ -8,14 +8,12 @@ import Reviews from '../admin/container/Reviews/Reviews';
 
 function AdminRoutes(props) {
     return (
-
         <Layout>
             <Routes>
                 <Route exact path='/Product' element={<Products />} />
                 <Route exact path='/Review' element={<Reviews />} />
             </Routes>
         </Layout>
-
     );
 }
 
