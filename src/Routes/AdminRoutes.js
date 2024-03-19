@@ -1,14 +1,20 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Products from '../admin/container/Products/Products';
+import Layout from '../admin/component/Layout/Layout';
+import { Reviews } from '@mui/icons-material';
+
 
 function AdminRoutes(props) {
     return (
-        <div>
-            <Routes>
-                <Route exact path='/Product' element={<Products />} />
-            </Routes>
-        </div>
+       
+            <Layout>
+                <Routes>
+                    <Route exact path='/Product' element={<Products />} />
+                    <Route exact path='/Review' element={<Reviews />} />
+                </Routes>
+            </Layout>
+       
     );
 }
 
