@@ -4,6 +4,7 @@ import Products from '../admin/container/Products/Products';
 import Layout from '../admin/component/Layout/Layout';
 // import { Reviews } from '@mui/icons-material';
 import Reviews from '../admin/container/Reviews/Reviews';
+import Category from '../admin/container/Category/Category';
 
 
 function AdminRoutes(props) {
@@ -12,6 +13,7 @@ function AdminRoutes(props) {
             <Routes>
                 <Route exact path='/Product' element={<Products />} />
                 <Route exact path='/Review' element={<Reviews />} />
+                <Route exact path='/Category' element={<Category />} />
             </Routes>
         </Layout>
     );

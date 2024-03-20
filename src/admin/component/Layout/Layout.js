@@ -19,12 +19,12 @@ import ListItemText from '@mui/material/ListItemText';
 import AppleIcon from '@mui/icons-material/Apple';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import { NavLink } from 'react-router-dom';
-
-const drawerWidth = 240;
+import CategoryIcon from '@mui/icons-material/Category'; const drawerWidth = 240;
 
 const AdminLinks = [
     { title: 'Product', icon: <AppleIcon />, to: '/admin/Product' },
-    { title: 'Review', icon: <RateReviewIcon />, to: '/admin/Review' }
+    { title: 'Review', icon: <RateReviewIcon />, to: '/admin/Review' },
+    { title: 'Category', icon: <CategoryIcon />, to: '/admin/Category' }
 ]
 const openedMixin = (theme) => ({
     width: drawerWidth,

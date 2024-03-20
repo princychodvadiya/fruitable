@@ -1,10 +1,29 @@
 import React from 'react';
+import { object, string, number, date, InferType } from 'yup';
+import { useFormik } from 'formik';
+
 
 function Contect(props) {
+    let ContectSchema = object({
+        name: string().required("please enter name"),
+        email: string().required("please enter email").email(),
+        message: string().required("please enter message").min(5, 'please enter min 5 character long message.')
+    });
+
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            email: '',
+            message: '',
+        },
+        validationSchema: ContectSchema,
+        onSubmit: values => {
+            alert(JSON.stringify(values, null, 2));
+        },
+    })
+
+    const { handleSubmit, handleChange, handleBlur, errors, values, touched } = formik;
     return (
-
-
-
         <div>
             {/* Single Page Header start */}
             <div className="container-fluid page-header py-5">
@@ -33,10 +52,46 @@ function Contect(props) {
                                 </div>
                             </div>
                             <div className="col-lg-7">
-                                <form action className>
-                                    <input type="text" className="w-100 form-control border-0 py-3 mb-4" placeholder="Your Name" />
-                                    <input type="email" className="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Email" />
-                                    <textarea className="w-100 form-control border-0 mb-4" rows={5} cols={10} placeholder="Your Message" defaultValue={""} />
+                                <form onSubmit={handleSubmit}>
+                                    <input
+                                        type="text"
+                                        className="w-100 form-control border-0 py-3 mb-4"
+                                        placeholder="Your Name"
+                                        name='name'
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.name}
+
+                                    />
+                                    <span>
+                                        {errors.name && touched.name ? errors.name : ''}
+                                    </span>
+                                    <input
+                                        type="email"
+                                        className="w-100 form-control border-0 py-3 mb-4"
+                                        placeholder="Enter Your Email"
+                                        name='email'
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.email}
+                                    />
+                                    <span>
+                                        {errors.email && touched.email ? errors.name : ''}
+                                    </span>
+                                    <textarea
+                                        className="w-100 form-control border-0 mb-4"
+                                        rows={5}
+                                        cols={10}
+                                        placeholder="Your Message"
+                                        defaultValue={""}
+                                        name='message'
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.message}
+                                    />
+                                    <span>
+                                        {errors.message && touched.message ? errors.name : ''}
+                                    </span>
                                     <button className="w-100 btn form-control border-secondary py-3 bg-white text-primary " type="submit">Submit</button>
                                 </form>
                             </div>
