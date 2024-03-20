@@ -63,7 +63,7 @@ function Contect(props) {
                                         value={values.name}
 
                                     />
-                                    <span>
+                                    <span style={{ color: 'red' }}>
                                         {errors.name && touched.name ? errors.name : ''}
                                     </span>
                                     <input
@@ -75,7 +75,7 @@ function Contect(props) {
                                         onBlur={handleBlur}
                                         value={values.email}
                                     />
-                                    <span>
+                                    <span style={{ color: 'red' }}>
                                         {errors.email && touched.email ? errors.name : ''}
                                     </span>
                                     <textarea
@@ -89,7 +89,7 @@ function Contect(props) {
                                         onBlur={handleBlur}
                                         value={values.message}
                                     />
-                                    <span>
+                                    <span style={{ color: 'red' }}>
                                         {errors.message && touched.message ? errors.name : ''}
                                     </span>
                                     <button className="w-100 btn form-control border-secondary py-3 bg-white text-primary " type="submit">Submit</button>
