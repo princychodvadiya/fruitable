@@ -4,7 +4,6 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { object, string, number, date, InferType } from 'yup';
 import { useFormik } from 'formik';
@@ -12,8 +11,13 @@ import { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect } from 'react';
+import EditIcon from '@mui/icons-material/Edit';
 
 export default function FormDialog() {
+
+    const [open, setOpen] = React.useState(false);
+    const [data, setdata] = useState([]);
+    const [update, setupdate] = useState(null);
 
     const columns = [
         { field: 'category', headerName: 'Name' },
@@ -21,17 +25,38 @@ export default function FormDialog() {
         {
             field: 'delete', headerName: 'Delete',
             renderCell: (params) => (
-                // <Button
-                <DeleteIcon onClick={() => handleDelete(params.row.id)} />
-                // >
-                // </Button>
+                <DeleteIcon
+                    variant='outlined'
+                    onClick={() => handleDelete(params.row.id)}
+                />
+
+
+            ),
+        },
+        {
+            field: 'edit', headerName: 'Edit',
+            renderCell: (params) => (
+                <EditIcon
+
+                    onClick={() => handleEdit(params.row.id)}
+                />
+
+
             ),
         }
     ];
 
+    const handleEdit = (data) => {
+        console.log(data);
+        formik.setValues(data)
+        setOpen(true);
+        setupdate(data);
+    }
+
     const handleDelete = (id) => {
         // console.log(id);
         let localData = JSON.parse(localStorage.getItem('category'));
+
         localData = localData.filter((v) => v.id !== id);
         // console.log(localData);
         localStorage.setItem('category', JSON.stringify(localData))
@@ -41,9 +66,8 @@ export default function FormDialog() {
     let CategorySchema = object({
         category: string().required("please enter name"),
         description: string().required("please enter description")
-
     });
-    const [data, setdata] = useState([])
+
 
     const getdata = () => {
         let localData = JSON.parse(localStorage.getItem('category'));
@@ -53,7 +77,7 @@ export default function FormDialog() {
         if (localData) {
             setdata(localData)
         }
-        console.log(localData);
+        // console.log(localData);
     }
 
     useEffect(() => {
@@ -67,15 +91,15 @@ export default function FormDialog() {
         },
         validationSchema: CategorySchema,
         onSubmit: (values, { resetForm }) => {
+
             resetForm()
             handleAdd(values)
-            handleClose()
+            handleClose();
         },
     })
 
-    const { handleSubmit, handleChange, handleBlur, errors, values, touched } = formik;
+    const { handleSubmit, handleChange, handleBlur, errors, values, touched, setValues } = formik;
 
-    const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -83,6 +107,9 @@ export default function FormDialog() {
 
     const handleClose = () => {
         setOpen(false);
+        formik.resetForm()
+        setupdate(null)
+
     };
 
     const handleAdd = (data) => {
@@ -144,7 +171,7 @@ export default function FormDialog() {
                             />
                             <DialogActions>
                                 <Button onClick={handleClose}>Cancel</Button>
-                                <Button type="submit">ADD</Button>
+                                <Button type="submit">{update ? 'update' : 'add'}</Button>
                             </DialogActions>
                         </DialogContent>
                     </form>
