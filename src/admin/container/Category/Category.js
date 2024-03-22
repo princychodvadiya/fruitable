@@ -5,7 +5,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { object, string, number, date, InferType } from 'yup';
+import { object, string } from 'yup';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
@@ -25,33 +25,16 @@ export default function FormDialog() {
         {
             field: 'delete', headerName: 'Delete',
             renderCell: (params) => (
-                <DeleteIcon
-                    variant='outlined'
-                    onClick={() => handleDelete(params.row.id)}
-                />
-
-
+                <DeleteIcon onClick={() => handleDelete(params.row.id)} />
             ),
         },
         {
             field: 'edit', headerName: 'Edit',
             renderCell: (params) => (
-                <EditIcon
-
-                    onClick={() => handleEdit(params.row.id)}
-                />
-
-
+                <EditIcon onClick={() => handleEdit(params.row)} />
             ),
         }
     ];
-
-    const handleEdit = (data) => {
-        console.log(data);
-        formik.setValues(data)
-        setOpen(true);
-        setupdate(data);
-    }
 
     const handleDelete = (id) => {
         // console.log(id);
@@ -63,21 +46,25 @@ export default function FormDialog() {
         getdata()
     }
 
+    const handleUpdate = (data) => {
+        let localdata = JSON.parse(localStorage.getItem('category'));
+        let index = localdata.findIndex(v => v.id === data.id)
+        localdata[index] = data;
+        localStorage.setItem("category", JSON.stringify(localdata))
+        getdata();
+    }
+
     let CategorySchema = object({
         category: string().required("please enter name"),
         description: string().required("please enter description")
     });
 
-
     const getdata = () => {
         let localData = JSON.parse(localStorage.getItem('category'));
 
-        // localStorage.setItem("category", JSON.stringify(localData));
-        // setdata(localData)
         if (localData) {
             setdata(localData)
         }
-        // console.log(localData);
     }
 
     useEffect(() => {
@@ -91,25 +78,21 @@ export default function FormDialog() {
         },
         validationSchema: CategorySchema,
         onSubmit: (values, { resetForm }) => {
-
+            if (update) {
+                handleUpdate(values)
+            } else {
+                handleAdd(values);
+            }
             resetForm()
-            handleAdd(values)
+            // handleAdd(values)
             handleClose();
         },
     })
 
     const { handleSubmit, handleChange, handleBlur, errors, values, touched, setValues } = formik;
 
-
     const handleClickOpen = () => {
         setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-        formik.resetForm()
-        setupdate(null)
-
     };
 
     const handleAdd = (data) => {
@@ -127,6 +110,22 @@ export default function FormDialog() {
         getdata()
     }
 
+    const handleClose = () => {
+        setOpen(false);
+        formik.resetForm(data)
+        setupdate(null)
+        // handleClickOpen()
+    };
+
+    const handleEdit = (data) => {
+        console.log(data);
+        formik.setValues(data)
+        setOpen(true);
+        setupdate(data);
+        // formik.resetForm();
+        // handleClickOpen();
+    }
+
     return (
         <div>
             <React.Fragment>
@@ -136,7 +135,6 @@ export default function FormDialog() {
                 <Dialog
                     open={open}
                     onClose={handleClose}
-
                 >
                     <DialogTitle>Category</DialogTitle>
                     <form onSubmit={handleSubmit}>
