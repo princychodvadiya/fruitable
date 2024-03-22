@@ -79,7 +79,7 @@ export default function FormDialog() {
         validationSchema: CategorySchema,
         onSubmit: (values, { resetForm }) => {
             if (update) {
-                handleUpdate(values)
+                handleUpdate(values);
             } else {
                 handleAdd(values);
             }
