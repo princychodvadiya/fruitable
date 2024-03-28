@@ -20,12 +20,15 @@ import AppleIcon from '@mui/icons-material/Apple';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import { NavLink } from 'react-router-dom';
 import CategoryIcon from '@mui/icons-material/Category'; const drawerWidth = 240;
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const AdminLinks = [
     { title: 'Product', icon: <AppleIcon />, to: '/admin/Product' },
     { title: 'Review', icon: <RateReviewIcon />, to: '/admin/Review' },
-    { title: 'Category', icon: <CategoryIcon />, to: '/admin/Category' }
+    { title: 'Category', icon: <CategoryIcon />, to: '/admin/Category' },
+    { title: 'Counter', icon: <AddCircleIcon />, to: '/admin/Counter' }
 ]
+
 const openedMixin = (theme) => ({
     width: drawerWidth,
     transition: theme.transitions.create('width', {

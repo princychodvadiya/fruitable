@@ -5,17 +5,24 @@ import Layout from '../admin/component/Layout/Layout';
 // import { Reviews } from '@mui/icons-material';
 import Reviews from '../admin/container/Reviews/Reviews';
 import Category from '../admin/container/Category/Category';
+import Counter from '../admin/container/Counter/Counter';
+import { Provider } from 'react-redux';
+import { configStore } from '../redux/store';
 
 
 function AdminRoutes(props) {
+    const store = configStore()
     return (
-        <Layout>
-            <Routes>
-                <Route exact path='/Product' element={<Products />} />
-                <Route exact path='/Review' element={<Reviews />} />
-                <Route exact path='/Category' element={<Category />} />
-            </Routes>
-        </Layout>
+        <Provider store={store}>
+            <Layout>
+                <Routes>
+                    <Route exact path='/Product' element={<Products />} />
+                    <Route exact path='/Review' element={<Reviews />} />
+                    <Route exact path='/Category' element={<Category />} />
+                    <Route exact path='/Counter' element={<Counter />} />
+                </Routes>
+            </Layout>
+        </Provider>
     );
 }
 
